@@ -1,4 +1,5 @@
 #pragma once
+#include "hashing/blake3.hpp"
 #include "ml_dsa/internals/hashing/blake3.hpp"
 #include "ml_dsa/internals/math/field.hpp"
 #include "ml_dsa/internals/poly/polyvec.hpp"
@@ -8,6 +9,7 @@
 #include <algorithm>
 #include <array>
 #include <cstdint>
+#include <iostream>
 #include <limits>
 #include <span>
 
@@ -38,7 +40,9 @@ keygen(std::span<const uint8_t, KEYGEN_SEED_BYTE_LEN> ξ,
   std::array<uint8_t, 32 + 64 + 32> seed_hash{};
   auto seed_hash_span = std::span(seed_hash);
 
-  ml_dsa_hashing::blake3_hasher_t hasher;
+  //ml_dsa_hashing::blake3_hasher_t hasher;
+  auto hasher = ml_dsa_hashing::ml_dsa_domains::H();
+
   hasher.absorb(ξ);
   hasher.absorb(domain_separator);
   hasher.finalize();
@@ -55,6 +59,9 @@ keygen(std::span<const uint8_t, KEYGEN_SEED_BYTE_LEN> ξ,
   std::array<ml_dsa_field::zq_t, k * ml_dsa_ntt::N> s2{};
 
   ml_dsa_sampling::expand_s<eta, l, 0>(rho_prime, s1);
+  for (auto b : s1)
+    std::cout << static_cast<int>(b.v) << ' ';
+  std::cout << '\n';
   ml_dsa_sampling::expand_s<eta, k, l>(rho_prime, s2);
 
   std::array<ml_dsa_field::zq_t, l * ml_dsa_ntt::N> s1_prime{};
@@ -85,10 +92,11 @@ keygen(std::span<const uint8_t, KEYGEN_SEED_BYTE_LEN> ξ,
   ml_dsa_polyvec::encode<k, t1_bw>(t1, pubkey.template last<pkoff2 - pkoff1>());
 
   // Prepare secret key
-  hasher.reset();
-  hasher.absorb(pubkey);
-  hasher.finalize();
-  hasher.squeeze(tr);
+  //hasher.reset();
+  auto hasher2 = ml_dsa_hashing::ml_dsa_domains::H();
+  hasher2.absorb(pubkey);
+  hasher2.finalize();
+  hasher2.squeeze(tr);
 
   constexpr size_t eta_bw = std::bit_width(2 * eta);
   constexpr size_t s1_len = l * eta_bw * 32;
@@ -156,8 +164,9 @@ sign_internal(std::span<const uint8_t, RND_BYTE_LEN> rnd,
 
   std::array<uint8_t, 64> rho_prime{};
 
-  ml_dsa_hashing::blake3_hasher_t hasher;
-  hasher.reset();
+  //ml_dsa_hashing::blake3_hasher_t hasher;
+  auto hasher = ml_dsa_hashing::ml_dsa_domains::H();
+
   hasher.absorb(key);
   hasher.absorb(rnd);
   hasher.absorb(mu);
@@ -212,11 +221,12 @@ sign_internal(std::span<const uint8_t, RND_BYTE_LEN> rnd,
     ml_dsa_polyvec::highbits<k, alpha>(w, w1);
     ml_dsa_polyvec::encode<k, w1bw>(w1, w1_encoded);
 
-    hasher.reset();
-    hasher.absorb(mu);
-    hasher.absorb(w1_encoded);
-    hasher.finalize();
-    hasher.squeeze(c_tilda_span);
+    //hasher.reset();
+    auto hasher2 = ml_dsa_hashing::ml_dsa_domains::H();
+    hasher2.absorb(mu);
+    hasher2.absorb(w1_encoded);
+    hasher2.finalize();
+    hasher2.squeeze(c_tilda_span);
 
     std::array<ml_dsa_field::zq_t, ml_dsa_ntt::N> c{};
 
@@ -323,7 +333,9 @@ sign(std::span<const uint8_t, RND_BYTE_LEN> rnd,
   std::array<uint8_t, MU_BYTE_LEN> mu{};
   auto mu_span = std::span(mu);
 
-  ml_dsa_hashing::blake3_hasher_t hasher;
+  //ml_dsa_hashing::blake3_hasher_t hasher;
+  auto hasher = ml_dsa_hashing::ml_dsa_domains::H();
+  //hasher.reset();
   hasher.absorb(tr);
   hasher.absorb(domain_separator);
   hasher.absorb(ctx);
@@ -349,7 +361,7 @@ verify_internal(std::span<const uint8_t, ml_dsa_utils::pub_key_len(k, d)> pubkey
   constexpr size_t t1_bw = std::bit_width(ml_dsa_field::Q) - d;
   constexpr size_t gamma1_bw = std::bit_width(gamma1);
 
-  // Decode signature
+  // Decode signature 
   constexpr size_t sigoff0 = 0;
   constexpr size_t sigoff1 = sigoff0 + (2 * lambda) / std::numeric_limits<uint8_t>::digits;
   constexpr size_t sigoff2 = sigoff1 + (32 * l * gamma1_bw);
@@ -423,7 +435,8 @@ verify_internal(std::span<const uint8_t, ml_dsa_utils::pub_key_len(k, d)> pubkey
 
   std::array<uint8_t, c_tilda.size()> c_tilda_prime{};
 
-  ml_dsa_hashing::blake3_hasher_t hasher;
+  //ml_dsa_hashing::blake3_hasher_t hasher;
+  auto hasher = ml_dsa_hashing::ml_dsa_domains::H();
   hasher.absorb(mu);
   hasher.absorb(w1_encoded);
   hasher.finalize();
@@ -452,20 +465,22 @@ verify(std::span<const uint8_t, ml_dsa_utils::pub_key_len(k, d)> pubkey,
   std::array<uint8_t, 64> mu{};
   std::array<uint8_t, 64> tr{};
 
-  ml_dsa_hashing::blake3_hasher_t hasher;
+  //ml_dsa_hashing::blake3_hasher_t hasher;
+  auto hasher = ml_dsa_hashing::ml_dsa_domains::H();
   hasher.absorb(pubkey);
   hasher.finalize();
   hasher.squeeze(tr);
 
   const std::array<uint8_t, 2> domain_separator{ 0, static_cast<uint8_t>(ctx.size()) };
 
-  hasher.reset();
-  hasher.absorb(tr);
-  hasher.absorb(domain_separator);
-  hasher.absorb(ctx);
-  hasher.absorb(msg);
-  hasher.finalize();
-  hasher.squeeze(mu);
+  //hasher.reset()
+  auto hasher2 = ml_dsa_hashing::ml_dsa_domains::H();
+  hasher2.absorb(tr);
+  hasher2.absorb(domain_separator);
+  hasher2.absorb(ctx);
+  hasher2.absorb(msg);
+  hasher2.finalize();
+  hasher2.squeeze(mu);
 
   return verify_internal<k, l, d, gamma1, gamma2, tau, beta, omega, lambda>(pubkey, mu, sig);
 }

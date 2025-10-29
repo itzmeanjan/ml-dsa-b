@@ -35,7 +35,8 @@ expand_a(std::span<const uint8_t, 32> rho, std::span<ml_dsa_field::zq_t, k * l *
       msg[32] = static_cast<uint8_t>(j);
       msg[33] = static_cast<uint8_t>(i);
 
-      ml_dsa_hashing::blake3_hasher_t hasher;
+      //ml_dsa_hashing::blake3_hasher_t hasher;
+      auto hasher = ml_dsa_hashing::ml_dsa_domains::G();
       hasher.absorb(msg_span);
       hasher.finalize();
 

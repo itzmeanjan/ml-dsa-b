@@ -2,6 +2,7 @@
 #include "blake3.h"
 #include <cstring>
 #include <span>
+#include <string_view>
 
 namespace ml_dsa_hashing {
 
@@ -23,6 +24,12 @@ public:
     this->finalized = false;
     this->squeeze_from = 0;
   };
+
+  explicit blake3_hasher_t(const std::string_view separator) {
+    blake3_hasher_init_derive_key(&this->internal_hasher, separator.data());
+    this->finalized = false;
+    this->squeeze_from = 0;
+  }
 
   // Absorb arbitrary length message into BLAKE3 hasher context. Invoke it as many times needed before hasher is finalized.
   void absorb(std::span<const uint8_t> msg)
@@ -60,4 +67,17 @@ public:
   }
 };
 
+namespace ml_dsa_domains {
+
+    inline blake3_hasher_t G() {
+        return blake3_hasher_t("ML-DSA-B-G");
+    }
+    
+    inline blake3_hasher_t H() {
+        return blake3_hasher_t("ML-DSA-B-H");
+    }
+
 }
+
+}
+

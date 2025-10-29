@@ -157,7 +157,7 @@ public:
     return zq_t::from_non_reduced(res);
   }
 
-private:
+//private:
   // Underlying value held in this type.
   //
   // Note, v is always kept in its canonical form i.e. v ∈ [0, Q).
