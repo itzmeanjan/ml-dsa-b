@@ -64,7 +64,7 @@ sign(std::span<const uint8_t, SigningSeedByteLen> rnd,
 static inline bool
 sign_internal(std::span<const uint8_t, SigningSeedByteLen> rnd,
               std::span<const uint8_t, SecKeyByteLen> seckey,
-              std::span<const uint8_t, MessageRepresentativeByteLen> mu,
+              std::span<const uint8_t/*, MessageRepresentativeByteLen*/> mu,
               std::span<uint8_t, SigByteLen> sig)
 {
   return ml_dsa::sign_internal<k, l, d, eta, gamma1, gamma2, tau, beta, omega, lambda>(rnd, seckey, mu, sig);
@@ -83,7 +83,7 @@ verify(std::span<const uint8_t, PubKeyByteLen> pubkey, std::span<const uint8_t> 
 // this routine can be used for verifying if the signature is valid for the provided message or not, returning truth
 // value only in case of successful signature verification, otherwise false is returned.
 static inline bool
-verify_internal(std::span<const uint8_t, PubKeyByteLen> pubkey, std::span<const uint8_t, MessageRepresentativeByteLen> mu, std::span<const uint8_t, SigByteLen> sig)
+verify_internal(std::span<const uint8_t, PubKeyByteLen> pubkey, std::span<const uint8_t/*, MessageRepresentativeByteLen*/> mu, std::span<const uint8_t, SigByteLen> sig)
 {
   return ml_dsa::verify_internal<k, l, d, gamma1, gamma2, tau, beta, omega, lambda>(pubkey, mu, sig);
 }
