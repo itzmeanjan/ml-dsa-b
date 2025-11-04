@@ -80,43 +80,43 @@ make release_ubsan_test -j # Run tests with UndefinedBehaviourSanitizer enabled,
 
 ```bash
 PASSED TESTS (37/37):
-       1 ms: build/test/test.out ML_DSA.HintBitPolynomialEncodingDecodingFor_ML_DSA_87
+       1 ms: build/test/test.out ML_DSA.HintBitPolynomialEncodingDecodingFor_ML_DSA_B_87
        1 ms: build/test/test.out ML_DSA.PolynomialEncodingDecodingWithSignificantBitWidth6
        1 ms: build/test/test.out ML_DSA.PolynomialEncodingDecodingWithSignificantBitWidth13
-       1 ms: build/test/test.out ML_DSA.HintBitPolynomialEncodingDecodingFor_ML_DSA_44
-       1 ms: build/test/test.out ML_DSA.HintBitPolynomialEncodingDecodingFor_ML_DSA_65
-       1 ms: build/test/test.out ML_DSA.SampleInBallFor_ML_DSA_44
-       1 ms: build/test/test.out ML_DSA.SampleInBallFor_ML_DSA_65
-       1 ms: build/test/test.out ML_DSA.SampleInBallFor_ML_DSA_87
+       1 ms: build/test/test.out ML_DSA.HintBitPolynomialEncodingDecodingFor_ML_DSA_B_44
+       1 ms: build/test/test.out ML_DSA.HintBitPolynomialEncodingDecodingFor_ML_DSA_B_65
+       1 ms: build/test/test.out ML_DSA.SampleInBallFor_ML_DSA_B_44
+       1 ms: build/test/test.out ML_DSA.SampleInBallFor_ML_DSA_B_65
+       1 ms: build/test/test.out ML_DSA.SampleInBallFor_ML_DSA_B_87
        2 ms: build/test/test.out ML_DSA.PolynomialEncodingDecodingWithSignificantBitWidth4
        2 ms: build/test/test.out ML_DSA.PolynomialEncodingDecodingWithSignificantBitWidth20
        2 ms: build/test/test.out ML_DSA.PolynomialEncodingDecodingWithSignificantBitWidth18
        3 ms: build/test/test.out ML_DSA.PolynomialEncodingDecodingWithSignificantBitWidth3
        3 ms: build/test/test.out ML_DSA.PolynomialEncodingDecodingWithSignificantBitWidth10
-       4 ms: build/test/test.out ML_DSA.ML_DSA_44_Verify_Internal_ACVP_KnownAnswerTests
-       4 ms: build/test/test.out ML_DSA.ML_DSA_44_Verify_ACVP_KnownAnswerTests
+       4 ms: build/test/test.out ML_DSA.ML_DSA_B_44_Verify_Internal_ACVP_KnownAnswerTests
+       4 ms: build/test/test.out ML_DSA.ML_DSA_B_44_Verify_ACVP_KnownAnswerTests
        5 ms: build/test/test.out ML_DSA.Power2Round
-       6 ms: build/test/test.out ML_DSA.ML_DSA_65_Verify_Internal_ACVP_KnownAnswerTests
-       7 ms: build/test/test.out ML_DSA.ML_DSA_44_Keygen_ACVP_KnownAnswerTests
-       8 ms: build/test/test.out ML_DSA.ML_DSA_87_Verify_Internal_ACVP_KnownAnswerTests
-       8 ms: build/test/test.out ML_DSA.ML_DSA_65_Verify_ACVP_KnownAnswerTests
-      10 ms: build/test/test.out ML_DSA.ML_DSA_87_Verify_ACVP_KnownAnswerTests
-      13 ms: build/test/test.out ML_DSA.ML_DSA_87_Keygen_ACVP_KnownAnswerTests
-      14 ms: build/test/test.out ML_DSA.ML_DSA_65_Keygen_ACVP_KnownAnswerTests
+       6 ms: build/test/test.out ML_DSA.ML_DSA_B_65_Verify_Internal_ACVP_KnownAnswerTests
+       7 ms: build/test/test.out ML_DSA.ML_DSA_B_44_Keygen_ACVP_KnownAnswerTests
+       8 ms: build/test/test.out ML_DSA.ML_DSA_B_87_Verify_Internal_ACVP_KnownAnswerTests
+       8 ms: build/test/test.out ML_DSA.ML_DSA_B_65_Verify_ACVP_KnownAnswerTests
+      10 ms: build/test/test.out ML_DSA.ML_DSA_B_87_Verify_ACVP_KnownAnswerTests
+      13 ms: build/test/test.out ML_DSA.ML_DSA_B_87_Keygen_ACVP_KnownAnswerTests
+      14 ms: build/test/test.out ML_DSA.ML_DSA_B_65_Keygen_ACVP_KnownAnswerTests
       16 ms: build/test/test.out ML_DSA.MakingAndUsingOfHintBits
-      27 ms: build/test/test.out ML_DSA.ML_DSA_44_Sign_Internal_ACVP_KnownAnswerTests
-      31 ms: build/test/test.out ML_DSA.ML_DSA_44_Sign_ACVP_KnownAnswerTests
-      41 ms: build/test/test.out ML_DSA.ML_DSA_65_Sign_Internal_ACVP_KnownAnswerTests
-      43 ms: build/test/test.out ML_DSA.ML_DSA_87_Sign_Internal_ACVP_KnownAnswerTests
-      47 ms: build/test/test.out ML_DSA.ML_DSA_87_Sign_ACVP_KnownAnswerTests
-      52 ms: build/test/test.out ML_DSA.ML_DSA_65_Sign_ACVP_KnownAnswerTests
-      80 ms: build/test/test.out ML_DSA.ML_DSA_44_KnownAnswerTests
-     151 ms: build/test/test.out ML_DSA.ML_DSA_87_KnownAnswerTests
-     151 ms: build/test/test.out ML_DSA.ML_DSA_65_KnownAnswerTests
+      27 ms: build/test/test.out ML_DSA.ML_DSA_B_44_Sign_Internal_ACVP_KnownAnswerTests
+      31 ms: build/test/test.out ML_DSA.ML_DSA_B_44_Sign_ACVP_KnownAnswerTests
+      41 ms: build/test/test.out ML_DSA.ML_DSA_B_65_Sign_Internal_ACVP_KnownAnswerTests
+      43 ms: build/test/test.out ML_DSA.ML_DSA_B_87_Sign_Internal_ACVP_KnownAnswerTests
+      47 ms: build/test/test.out ML_DSA.ML_DSA_B_87_Sign_ACVP_KnownAnswerTests
+      52 ms: build/test/test.out ML_DSA.ML_DSA_B_65_Sign_ACVP_KnownAnswerTests
+      80 ms: build/test/test.out ML_DSA.ML_DSA_B_44_KnownAnswerTests
+     151 ms: build/test/test.out ML_DSA.ML_DSA_B_87_KnownAnswerTests
+     151 ms: build/test/test.out ML_DSA.ML_DSA_B_65_KnownAnswerTests
      322 ms: build/test/test.out ML_DSA.ArithmeticOverZq
-    6726 ms: build/test/test.out ML_DSA.ML_DSA_44_KeygenSignVerifyFlow
-   10662 ms: build/test/test.out ML_DSA.ML_DSA_65_KeygenSignVerifyFlow
-   15431 ms: build/test/test.out ML_DSA.ML_DSA_87_KeygenSignVerifyFlow
+    6726 ms: build/test/test.out ML_DSA.ML_DSA_B_44_KeygenSignVerifyFlow
+   10662 ms: build/test/test.out ML_DSA.ML_DSA_B_65_KeygenSignVerifyFlow
+   15431 ms: build/test/test.out ML_DSA.ML_DSA_B_87_KeygenSignVerifyFlow
 ```
 
 > [!NOTE]
@@ -167,27 +167,27 @@ git clone https://github.com/itzmeanjan/ml-dsa.git && pushd ml-dsa && make test 
 ```c++
 // main.cpp
 
-// In case interested in using ML-DSA-65 or ML-DSA-87 API, import "ml_dsa_65.hpp" or "ml_dsa_87.hpp"
-// and use keygen/ sign/ verify functions living either under `ml_dsa_65::` or `ml_dsa_87::` namespace.
-#include "ml_dsa/ml_dsa_44.hpp"
+// In case interested in using ML-DSA-65 or ML-DSA-87 API, import "ml_dsa_b_65.hpp" or "ml_dsa_b_87.hpp"
+// and use keygen/ sign/ verify functions living either under `ml_dsa_b_65::` or `ml_dsa_b_87::` namespace.
+#include "ml_dsa_b/ml_dsa_b_44.hpp"
 #include "randomshake/randomshake.hpp"
 
 int main() {
     // --- --- --- Key Generation --- --- ---
 
-    std::array<uint8_t, ml_dsa_44::KeygenSeedByteLen> seed{};
-    std::array<uint8_t, ml_dsa_44::PubKeyByteLen> pubkey{};
-    std::array<uint8_t, ml_dsa_44::SecKeyByteLen> seckey{};
+    std::array<uint8_t, ml_dsa_b_44::KeygenSeedByteLen> seed{};
+    std::array<uint8_t, ml_dsa_b_44::PubKeyByteLen> pubkey{};
+    std::array<uint8_t, ml_dsa_b_44::SecKeyByteLen> seckey{};
 
     randomshake::randomshake_t<128> csprng;
     csprng.generate(seed);
 
-    ml_dsa_44::keygen(seed, pubkey, seckey);
+    ml_dsa_b_44::keygen(seed, pubkey, seckey);
 
     // --- --- --- Message Signing --- --- ---
 
-    std::array<uint8_t, ml_dsa_44::SigningSeedByteLen> rnd{};
-    std::array<uint8_t, ml_dsa_44::SigByteLen> sig{};
+    std::array<uint8_t, ml_dsa_b_44::SigningSeedByteLen> rnd{};
+    std::array<uint8_t, ml_dsa_b_44::SigByteLen> sig{};
 
     // 32 -bytes randomness, for default and recommended *hedged* message signing.
     csprng.generate(rnd);
@@ -201,12 +201,12 @@ int main() {
     csprng.generate(msg);
 
     // Note, we're passing an empty context.
-    const bool has_signed = ml_dsa_44::sign(rnd, seckey, msg, {}, sig);
+    const bool has_signed = ml_dsa_b_44::sign(rnd, seckey, msg, {}, sig);
     assert(has_signed);
 
     // --- --- --- Signature Verification --- --- ---
 
-    const bool is_valid = ml_dsa_44::verify(pubkey, msg, {}, sig);
+    const bool is_valid = ml_dsa_b_44::verify(pubkey, msg, {}, sig);
     assert(is_valid);
 
     return 0;
@@ -227,9 +227,9 @@ g++ -std=c++20 -Wall -Wextra -pedantic -O3 -march=native -I $ML_DSA_HEADERS -I $
 
 ML-DSA Variant | Namespace | Header
 --- | --- | ---
-ML-DSA-44 Routines | ml_dsa_44:: | include/ml_dsa/ml_dsa_44.hpp
-ML-DSA-65 Routines | ml_dsa_65:: | include/ml_dsa/ml_dsa_65.hpp
-ML-DSA-87 Routines | ml_dsa_87:: | include/ml_dsa/ml_dsa_87.hpp
+ML-DSA-44 Routines | ml_dsa_b_44:: | include/ml_dsa/ml_dsa_b_44.hpp
+ML-DSA-65 Routines | ml_dsa_b_65:: | include/ml_dsa/ml_dsa_b_65.hpp
+ML-DSA-87 Routines | ml_dsa_b_87:: | include/ml_dsa/ml_dsa_b_87.hpp
 
 ---
 
@@ -241,15 +241,15 @@ I present you with following demonstration program, which generates a ML-DSA-44 
 
 ```c++
 /**
- * Filename: compile_time_ml_dsa_44.cpp
+ * Filename: compile_time_ml_dsa_b_44.cpp
  *
  * Compile and run this program with
- * $ g++ -std=c++20 -Wall -Wextra -pedantic -fconstexpr-ops-limit=195000000 -I include -I sha3/include -I RandomShake/include compile_time_ml_dsa_44.cpp && ./a.out
+ * $ g++ -std=c++20 -Wall -Wextra -pedantic -fconstexpr-ops-limit=195000000 -I include -I sha3/include -I RandomShake/include compile_time_ml_dsa_b_44.cpp && ./a.out
  * or
- * $ clang++ -std=c++20 -Wall -Wextra -pedantic -fconstexpr-steps=30000000 -I include -I sha3/include -I RandomShake/include compile_time_ml_dsa_44.cpp && ./a.out
+ * $ clang++ -std=c++20 -Wall -Wextra -pedantic -fconstexpr-steps=30000000 -I include -I sha3/include -I RandomShake/include compile_time_ml_dsa_b_44.cpp && ./a.out
  */
 
-#include "ml_dsa/ml_dsa_44.hpp"
+#include "ml_dsa_b/ml_dsa_b_44.hpp"
 
 // Compile-time
 //
@@ -257,38 +257,38 @@ I present you with following demonstration program, which generates a ML-DSA-44 
 // - Signing of a known message
 // - Verification of signature
 //
-// for ML-DSA-44, using KAT no. (1). See kats/ml_dsa_44.kat.
+// for ML-DSA-44, using KAT no. (1). See kats/ml_dsa_b_44.kat.
 constexpr auto
-ml_dsa_44_keygen_sign_verify() -> auto
+ml_dsa_b_44_keygen_sign_verify() -> auto
 {
   // 7c9935a0b07694aa0c6d10e4db6b1add2fd81a25ccb148032dcd739936737f2d
-  constexpr std::array<uint8_t, ml_dsa_44::KeygenSeedByteLen> ξ = { 124, 153, 53, 160, 176, 118, 148, 170, 12, 109, 16,  228, 219, 107, 26,  221, 47,  216, 26, 37,  204, 177, 72,  3,   45, 205, 115, 153, 54,  115, 127, 45 };
+  constexpr std::array<uint8_t, ml_dsa_b_44::KeygenSeedByteLen> ξ = { 124, 153, 53, 160, 176, 118, 148, 170, 12, 109, 16,  228, 219, 107, 26,  221, 47,  216, 26, 37,  204, 177, 72,  3,   45, 205, 115, 153, 54,  115, 127, 45 };
   // 0000000000000000000000000000000000000000000000000000000000000000
-  constexpr std::array<uint8_t, ml_dsa_44::SigningSeedByteLen> rnd{};
+  constexpr std::array<uint8_t, ml_dsa_b_44::SigningSeedByteLen> rnd{};
   // d81c4d8d734fcbfbeade3d3f8a039faa2a2c9957e835ad55b22e75bf57bb556ac8
   constexpr std::array<uint8_t, 33> msg = { 216, 28,  77, 141, 115, 79,  203, 251, 234, 222, 61,  63, 138, 3,  159, 170, 42, 44,  153, 87, 232, 53,  173, 85,  178, 46,  117, 191, 87, 187, 85, 106, 200 };
 
-  std::array<uint8_t, ml_dsa_44::PubKeyByteLen> pkey{};
-  std::array<uint8_t, ml_dsa_44::SecKeyByteLen> skey{};
-  std::array<uint8_t, ml_dsa_44::SigByteLen> sig{};
+  std::array<uint8_t, ml_dsa_b_44::PubKeyByteLen> pkey{};
+  std::array<uint8_t, ml_dsa_b_44::SecKeyByteLen> skey{};
+  std::array<uint8_t, ml_dsa_b_44::SigByteLen> sig{};
 
-  ml_dsa_44::keygen(ξ, pkey, skey);
-  ml_dsa_44::sign(rnd, skey, msg, {}, sig);
-  return ml_dsa_44::verify(pkey, msg, {}, sig);
+  ml_dsa_b_44::keygen(ξ, pkey, skey);
+  ml_dsa_b_44::sign(rnd, skey, msg, {}, sig);
+  return ml_dsa_b_44::verify(pkey, msg, {}, sig);
 }
 
 int
 main()
 {
   // Notice static_assert, yay !
-  static_assert(ml_dsa_44_keygen_sign_verify() == true, "Must be able to generate a new keypair, sign a message and verify the signature at program compile-time !");
+  static_assert(ml_dsa_b_44_keygen_sign_verify() == true, "Must be able to generate a new keypair, sign a message and verify the signature at program compile-time !");
   return 0;
 }
 ```
 
 ---
 
-See example [ml_dsa_44.cpp](./examples/ml_dsa_44.cpp), which demonstrates how to use ML-DSA-44 API, similarly you can use ML-DSA-{65, 87} API. Execute the example by running following command.
+See example [ml_dsa_b_44.cpp](./examples/ml_dsa_b_44.cpp), which demonstrates how to use ML-DSA-44 API, similarly you can use ML-DSA-{65, 87} API. Execute the example by running following command.
 
 ```bash
 make example -j

@@ -1,20 +1,20 @@
 #pragma once
-#include "ml_dsa/internals/math/field.hpp"
+#include "ml_dsa_b/internals/math/field.hpp"
 #include <array>
 #include <span>
 
 // Number Theoretic Transform for degree-255 polynomial
-namespace ml_dsa_ntt {
+namespace ml_dsa_b_ntt {
 
 static constexpr size_t LOG2N = 8;
 static constexpr size_t N = 1 << LOG2N;
 
 // First primitive 512 -th root of unity modulo q
-static constexpr ml_dsa_field::zq_t zeta(1753);
-static_assert((zeta ^ 512) == ml_dsa_field::zq_t::one(), "zeta must be 512th root of unity modulo Q");
+static constexpr ml_dsa_b_field::zq_t zeta(1753);
+static_assert((zeta ^ 512) == ml_dsa_b_field::zq_t::one(), "zeta must be 512th root of unity modulo Q");
 
 // Multiplicative inverse of N over Z_q
-static constexpr auto INV_N = ml_dsa_field::zq_t(N).inv();
+static constexpr auto INV_N = ml_dsa_b_field::zq_t(N).inv();
 
 // Given a 64 -bit unsigned integer, this routine extracts specified many contiguous bits from LSB ( least significant
 // bits ) side & reverses their bit order, returning bit reversed `mbw` -bit wide number.
@@ -37,7 +37,7 @@ bit_rev(const size_t v)
 
 // Precomputed table of powers of zeta, used during polynomial evaluation.
 static constexpr auto zeta_EXP = []() {
-  std::array<ml_dsa_field::zq_t, N> res;
+  std::array<ml_dsa_b_field::zq_t, N> res;
 
   for (size_t i = 0; i < N; i++) {
     res[i] = zeta ^ bit_rev<LOG2N>(i);
@@ -48,7 +48,7 @@ static constexpr auto zeta_EXP = []() {
 
 // Precomputed table of negated powers of zeta, used during polynomial interpolation.
 static constexpr auto zeta_NEG_EXP = []() {
-  std::array<ml_dsa_field::zq_t, N> res;
+  std::array<ml_dsa_b_field::zq_t, N> res;
 
   for (size_t i = 0; i < N; i++) {
     res[i] = -zeta_EXP[i];
@@ -65,7 +65,7 @@ static constexpr auto zeta_NEG_EXP = []() {
 // Implementation inspired from https://github.com/itzmeanjan/kyber/blob/3cd41a5/include/ntt.hpp#L95-L129.
 // See algorithm 41 of ML-DSA standard https://doi.org/10.6028/NIST.FIPS.204.
 static inline constexpr void
-ntt(std::span<ml_dsa_field::zq_t, N> poly)
+ntt(std::span<ml_dsa_b_field::zq_t, N> poly)
 {
 #if (not defined __clang__) && (defined __GNUG__)
 #pragma GCC unroll 8
@@ -77,7 +77,7 @@ ntt(std::span<ml_dsa_field::zq_t, N> poly)
 
     for (size_t start = 0; start < poly.size(); start += lenx2) {
       const size_t k_now = k_beg + (start >> (l + 1));
-      const ml_dsa_field::zq_t zeta_exp = zeta_EXP[k_now];
+      const ml_dsa_b_field::zq_t zeta_exp = zeta_EXP[k_now];
 
 #if (not defined __clang__) && (defined __GNUG__)
 #pragma GCC unroll 4
@@ -102,7 +102,7 @@ ntt(std::span<ml_dsa_field::zq_t, N> poly)
 // Implementation inspired from https://github.com/itzmeanjan/kyber/blob/3cd41a5/include/ntt.hpp#L131-L172.
 // See algorithm 42 of ML-DSA standard https://doi.org/10.6028/NIST.FIPS.204.
 static inline constexpr void
-intt(std::span<ml_dsa_field::zq_t, N> poly)
+intt(std::span<ml_dsa_b_field::zq_t, N> poly)
 {
 #if (not defined __clang__) && (defined __GNUG__)
 #pragma GCC unroll 8
@@ -114,7 +114,7 @@ intt(std::span<ml_dsa_field::zq_t, N> poly)
 
     for (size_t start = 0; start < poly.size(); start += lenx2) {
       const size_t k_now = k_beg - (start >> (l + 1));
-      const ml_dsa_field::zq_t neg_zeta_exp = zeta_NEG_EXP[k_now];
+      const ml_dsa_b_field::zq_t neg_zeta_exp = zeta_NEG_EXP[k_now];
 
 #if (not defined __clang__) && (defined __GNUG__)
 #pragma GCC unroll 4

@@ -5,7 +5,7 @@
 #include <cstdint>
 
 // Prime field arithmetic over Z_q s.t. q = 2^23 - 2^13 + 1
-namespace ml_dsa_field {
+namespace ml_dsa_b_field {
 
 // ML-DSA Prime Field Modulus
 static constexpr uint32_t Q = (1u << 23) - (1u << 13) + 1u;

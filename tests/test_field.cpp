@@ -1,19 +1,19 @@
-#include "ml_dsa/internals/math/field.hpp"
+#include "ml_dsa_b/internals/math/field.hpp"
 #include "randomshake/randomshake.hpp"
 #include <gtest/gtest.h>
 
 // Test functional correctness of ML-DSA prime field operations, by running through fairly large number of rounds of
 // execution of field operations on randomly generated field element.
-TEST(ML_DSA, ArithmeticOverZq)
+TEST(ML_DSA_B, ArithmeticOverZq)
 {
   constexpr size_t itr_cnt = 1ul << 20;
-  constexpr auto zero = ml_dsa_field::zq_t::zero();
+  constexpr auto zero = ml_dsa_b_field::zq_t::zero();
 
   randomshake::randomshake_t<256> csprng;
 
   for (size_t i = 0; i < itr_cnt; i++) {
-    const auto a = ml_dsa_field::zq_t::random(csprng);
-    const auto b = ml_dsa_field::zq_t::random(csprng);
+    const auto a = ml_dsa_b_field::zq_t::random(csprng);
+    const auto b = ml_dsa_b_field::zq_t::random(csprng);
 
     // Addition, Subtraction and Negation
     const auto c = a + b;

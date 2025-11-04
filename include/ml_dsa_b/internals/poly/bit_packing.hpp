@@ -1,12 +1,12 @@
 #pragma once
-#include "ml_dsa/internals/math/field.hpp"
-#include "ml_dsa/internals/utility/params.hpp"
+#include "ml_dsa_b/internals/math/field.hpp"
+#include "ml_dsa_b/internals/utility/params.hpp"
 #include "ntt.hpp"
 #include <algorithm>
 #include <limits>
 
 // Bit packing/ unpacking -related utility functions
-namespace ml_dsa_bit_packing {
+namespace ml_dsa_b_bit_packing {
 
 // Given a degree-255 polynomial, where significant portion of each coefficient ∈ [0, 2^sbw), this
 // routine serializes the polynomial to a byte array of length 32 * sbw -bytes.
@@ -14,8 +14,8 @@ namespace ml_dsa_bit_packing {
 // See algorithm 16 of ML-DSA standard @ https://doi.org/10.6028/NIST.FIPS.204.
 template<size_t sbw>
 static inline constexpr void
-encode(std::span<const ml_dsa_field::zq_t, ml_dsa_ntt::N> poly, std::span<uint8_t, (ml_dsa_ntt::N * sbw) / std::numeric_limits<uint8_t>::digits> arr)
-  requires(ml_dsa_params::check_sbw(sbw))
+encode(std::span<const ml_dsa_b_field::zq_t, ml_dsa_b_ntt::N> poly, std::span<uint8_t, (ml_dsa_b_ntt::N * sbw) / std::numeric_limits<uint8_t>::digits> arr)
+  requires(ml_dsa_b_params::check_sbw(sbw))
 {
   std::fill(arr.begin(), arr.end(), 0);
 
@@ -159,10 +159,10 @@ encode(std::span<const ml_dsa_field::zq_t, ml_dsa_ntt::N> poly, std::span<uint8_
 // See algorithm 18 of ML-DSA standard @ https://doi.org/10.6028/NIST.FIPS.204.
 template<size_t sbw>
 static inline constexpr void
-decode(std::span<const uint8_t, ml_dsa_ntt::N * sbw / 8> arr, std::span<ml_dsa_field::zq_t, ml_dsa_ntt::N> poly)
-  requires(ml_dsa_params::check_sbw(sbw))
+decode(std::span<const uint8_t, ml_dsa_b_ntt::N * sbw / 8> arr, std::span<ml_dsa_b_field::zq_t, ml_dsa_b_ntt::N> poly)
+  requires(ml_dsa_b_params::check_sbw(sbw))
 {
-  std::fill(poly.begin(), poly.end(), ml_dsa_field::zq_t::zero());
+  std::fill(poly.begin(), poly.end(), ml_dsa_b_field::zq_t::zero());
 
   if constexpr (sbw == 3) {
     constexpr size_t itr_cnt = poly.size() >> 3;
@@ -292,17 +292,17 @@ decode(std::span<const uint8_t, ml_dsa_ntt::N * sbw / 8> arr, std::span<ml_dsa_f
 // See algorithm 20 of ML-DSA standard @ https://doi.org/10.6028/NIST.FIPS.204.
 template<size_t k, size_t omega>
 static inline constexpr void
-encode_hint_bits(std::span<const ml_dsa_field::zq_t, k * ml_dsa_ntt::N> h, std::span<uint8_t, omega + k> arr)
+encode_hint_bits(std::span<const ml_dsa_b_field::zq_t, k * ml_dsa_b_ntt::N> h, std::span<uint8_t, omega + k> arr)
 {
   std::fill(arr.begin(), arr.end(), 0);
 
-  constexpr auto zero = ml_dsa_field::zq_t::zero();
+  constexpr auto zero = ml_dsa_b_field::zq_t::zero();
   size_t idx = 0;
 
   for (size_t i = 0; i < k; i++) {
-    const size_t off = i * ml_dsa_ntt::N;
+    const size_t off = i * ml_dsa_b_ntt::N;
 
-    for (size_t j = 0; j < ml_dsa_ntt::N; j++) {
+    for (size_t j = 0; j < ml_dsa_b_ntt::N; j++) {
       const bool flg = h[off + j] != zero;
       const uint8_t br[]{ arr[idx], static_cast<uint8_t>(j) };
 
@@ -323,15 +323,15 @@ encode_hint_bits(std::span<const ml_dsa_field::zq_t, k * ml_dsa_ntt::N> h, std::
 // See algorithm 21 of ML-DSA standard @ https://doi.org/10.6028/NIST.FIPS.204.
 template<size_t k, size_t omega>
 static inline constexpr bool
-decode_hint_bits(std::span<const uint8_t, omega + k> arr, std::span<ml_dsa_field::zq_t, k * ml_dsa_ntt::N> h)
+decode_hint_bits(std::span<const uint8_t, omega + k> arr, std::span<ml_dsa_b_field::zq_t, k * ml_dsa_b_ntt::N> h)
 {
-  std::fill(h.begin(), h.end(), ml_dsa_field::zq_t::zero());
+  std::fill(h.begin(), h.end(), ml_dsa_b_field::zq_t::zero());
 
   size_t idx = 0;
   bool failed = false;
 
   for (size_t i = 0; i < k; i++) {
-    const size_t off = i * ml_dsa_ntt::N;
+    const size_t off = i * ml_dsa_b_ntt::N;
 
     const bool flg0 = arr[omega + i] < idx;
     const bool flg1 = arr[omega + i] > omega;
@@ -346,7 +346,7 @@ decode_hint_bits(std::span<const uint8_t, omega + k> arr, std::span<ml_dsa_field
 
       failed |= flg1;
 
-      h[off + arr[j]] = ml_dsa_field::zq_t::one();
+      h[off + arr[j]] = ml_dsa_b_field::zq_t::one();
     }
 
     idx = arr[omega + i];

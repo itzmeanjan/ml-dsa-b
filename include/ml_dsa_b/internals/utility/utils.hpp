@@ -1,8 +1,8 @@
 #pragma once
-#include "ml_dsa/internals/math/field.hpp"
+#include "ml_dsa_b/internals/math/field.hpp"
 
 // Utility functions for ML-DSA
-namespace ml_dsa_utils {
+namespace ml_dsa_b_utils {
 
 // Compile-time compute how many bytes to reserve for storing serialized ML-DSA public key, for given parameter set.
 //
@@ -10,7 +10,7 @@ namespace ml_dsa_utils {
 static inline constexpr size_t
 pub_key_len(const size_t k, const size_t d)
 {
-  const size_t t1_bw = ml_dsa_field::Q_BIT_WIDTH - d;
+  const size_t t1_bw = ml_dsa_b_field::Q_BIT_WIDTH - d;
   const size_t pklen = 32 + k * 32 * t1_bw;
   return pklen;
 }

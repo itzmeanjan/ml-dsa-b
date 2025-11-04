@@ -1,4 +1,4 @@
-#include "ml_dsa/ml_dsa_44.hpp"
+#include "ml_dsa_b/ml_dsa_b_44.hpp"
 #include "test_helper.hpp"
 #include <array>
 #include <cstdint>
@@ -7,9 +7,9 @@
 #include <iostream>
 
 using namespace std::literals;
-using namespace ml_dsa_44;
+using namespace ml_dsa_b_44;
 
-TEST(ML_DSA, ML_DSA_44_Keygen_KnownAnswerTests)
+TEST(ML_DSA_B, ML_DSA_B_44_Keygen_KnownAnswerTests)
 {
   const std::string kat_file = "./kats/ml_dsa_b_44_key-gen.kat";
   std::fstream file(kat_file);
@@ -48,7 +48,7 @@ TEST(ML_DSA, ML_DSA_44_Keygen_KnownAnswerTests)
   file.close();
 }
 
-TEST(ML_DSA, ML_DSA_44_Sign_KnownAnswerTests)
+TEST(ML_DSA_B, ML_DSA_B_44_Sign_KnownAnswerTests)
 {
   const std::string kat_file = "./kats/ml_dsa_b_44_sig-gen.kat";
   std::fstream file(kat_file);
@@ -90,7 +90,7 @@ TEST(ML_DSA, ML_DSA_44_Sign_KnownAnswerTests)
   file.close();
 }
 
-TEST(ML_DSA, ML_DSA_44_Verify_KnownAnswerTests)
+TEST(ML_DSA_B, ML_DSA_B_44_Verify_KnownAnswerTests)
 {
   const std::string kat_file = "./kats/ml_dsa_b_44_sig-ver.kat";
   std::fstream file(kat_file);

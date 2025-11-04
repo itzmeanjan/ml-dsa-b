@@ -1,4 +1,4 @@
-#include "ml_dsa/internals/poly/bit_packing.hpp"
+#include "ml_dsa_b/internals/poly/bit_packing.hpp"
 #include "randomshake/randomshake.hpp"
 #include <gtest/gtest.h>
 
@@ -9,60 +9,60 @@
 template<size_t sbw>
 static void
 test_encode_decode_of_polynomials()
-  requires(ml_dsa_params::check_sbw(sbw))
+  requires(ml_dsa_b_params::check_sbw(sbw))
 {
-  constexpr size_t poly_byte_len = (sbw * ml_dsa_ntt::N) / 8;
+  constexpr size_t poly_byte_len = (sbw * ml_dsa_b_ntt::N) / 8;
   constexpr size_t mask = (1u << sbw) - 1u;
 
-  std::array<ml_dsa_field::zq_t, ml_dsa_ntt::N> polya{};
-  std::array<ml_dsa_field::zq_t, ml_dsa_ntt::N> polyb{};
+  std::array<ml_dsa_b_field::zq_t, ml_dsa_b_ntt::N> polya{};
+  std::array<ml_dsa_b_field::zq_t, ml_dsa_b_ntt::N> polyb{};
   std::array<uint8_t, poly_byte_len> poly_bytes{};
 
   randomshake::randomshake_t<256> csprng;
 
-  for (size_t i = 0; i < ml_dsa_ntt::N; i++) {
-    polya[i] = ml_dsa_field::zq_t::random(csprng);
+  for (size_t i = 0; i < ml_dsa_b_ntt::N; i++) {
+    polya[i] = ml_dsa_b_field::zq_t::random(csprng);
   }
 
-  ml_dsa_bit_packing::encode<sbw>(polya, poly_bytes);
-  ml_dsa_bit_packing::decode<sbw>(poly_bytes, polyb);
+  ml_dsa_b_bit_packing::encode<sbw>(polya, poly_bytes);
+  ml_dsa_b_bit_packing::decode<sbw>(poly_bytes, polyb);
 
-  for (size_t i = 0; i < ml_dsa_ntt::N; i++) {
+  for (size_t i = 0; i < ml_dsa_b_ntt::N; i++) {
     EXPECT_EQ(polya[i].raw() & mask, polyb[i].raw());
   }
 }
 
-TEST(ML_DSA, PolynomialEncodingDecodingWithSignificantBitWidth3)
+TEST(ML_DSA_B, PolynomialEncodingDecodingWithSignificantBitWidth3)
 {
   test_encode_decode_of_polynomials<3>();
 }
 
-TEST(ML_DSA, PolynomialEncodingDecodingWithSignificantBitWidth4)
+TEST(ML_DSA_B, PolynomialEncodingDecodingWithSignificantBitWidth4)
 {
   test_encode_decode_of_polynomials<4>();
 }
 
-TEST(ML_DSA, PolynomialEncodingDecodingWithSignificantBitWidth6)
+TEST(ML_DSA_B, PolynomialEncodingDecodingWithSignificantBitWidth6)
 {
   test_encode_decode_of_polynomials<6>();
 }
 
-TEST(ML_DSA, PolynomialEncodingDecodingWithSignificantBitWidth10)
+TEST(ML_DSA_B, PolynomialEncodingDecodingWithSignificantBitWidth10)
 {
   test_encode_decode_of_polynomials<10>();
 }
 
-TEST(ML_DSA, PolynomialEncodingDecodingWithSignificantBitWidth13)
+TEST(ML_DSA_B, PolynomialEncodingDecodingWithSignificantBitWidth13)
 {
   test_encode_decode_of_polynomials<13>();
 }
 
-TEST(ML_DSA, PolynomialEncodingDecodingWithSignificantBitWidth18)
+TEST(ML_DSA_B, PolynomialEncodingDecodingWithSignificantBitWidth18)
 {
   test_encode_decode_of_polynomials<18>();
 }
 
-TEST(ML_DSA, PolynomialEncodingDecodingWithSignificantBitWidth20)
+TEST(ML_DSA_B, PolynomialEncodingDecodingWithSignificantBitWidth20)
 {
   test_encode_decode_of_polynomials<20>();
 }
@@ -70,9 +70,9 @@ TEST(ML_DSA, PolynomialEncodingDecodingWithSignificantBitWidth20)
 // Generates random hint bit polynomial vector of dimension k x 1, with <= omega coefficients set to 1.
 template<size_t k, size_t omega>
 static void
-generate_random_hint_bits(std::span<ml_dsa_field::zq_t, k * ml_dsa_ntt::N> poly)
+generate_random_hint_bits(std::span<ml_dsa_b_field::zq_t, k * ml_dsa_b_ntt::N> poly)
 {
-  std::fill(poly.begin(), poly.end(), ml_dsa_field::zq_t::zero());
+  std::fill(poly.begin(), poly.end(), ml_dsa_b_field::zq_t::zero());
 
   constexpr size_t frm = 0;
   constexpr size_t to = poly.size() - 1;
@@ -83,7 +83,7 @@ generate_random_hint_bits(std::span<ml_dsa_field::zq_t, k * ml_dsa_ntt::N> poly)
 
   for (size_t i = 0; i < omega; i++) {
     const size_t idx = dis(gen);
-    poly[idx] = ml_dsa_field::zq_t::one();
+    poly[idx] = ml_dsa_b_field::zq_t::one();
   }
 }
 
@@ -94,40 +94,40 @@ test_encode_decode_of_hint_polynomial()
 {
   constexpr size_t hint_byte_len = omega + k;
 
-  std::array<ml_dsa_field::zq_t, k * ml_dsa_ntt::N> h0{};
-  std::array<ml_dsa_field::zq_t, k * ml_dsa_ntt::N> h1{};
-  std::array<ml_dsa_field::zq_t, k * ml_dsa_ntt::N> h2{};
+  std::array<ml_dsa_b_field::zq_t, k * ml_dsa_b_ntt::N> h0{};
+  std::array<ml_dsa_b_field::zq_t, k * ml_dsa_b_ntt::N> h1{};
+  std::array<ml_dsa_b_field::zq_t, k * ml_dsa_b_ntt::N> h2{};
 
   std::array<uint8_t, hint_byte_len> hint_poly_bytes0{};
   std::array<uint8_t, hint_byte_len> hint_poly_bytes1{};
 
   generate_random_hint_bits<k, omega>(h0);
 
-  ml_dsa_bit_packing::encode_hint_bits<k, omega>(h0, hint_poly_bytes0);
+  ml_dsa_b_bit_packing::encode_hint_bits<k, omega>(h0, hint_poly_bytes0);
 
   std::copy(hint_poly_bytes0.begin(), hint_poly_bytes0.end(), hint_poly_bytes1.begin());
   hint_poly_bytes1[hint_byte_len - 1] = ~hint_poly_bytes1[hint_byte_len - 1];
 
-  const bool failed0 = ml_dsa_bit_packing::decode_hint_bits<k, omega>(hint_poly_bytes0, h1);
+  const bool failed0 = ml_dsa_b_bit_packing::decode_hint_bits<k, omega>(hint_poly_bytes0, h1);
   EXPECT_FALSE(failed0);
   EXPECT_TRUE(std::equal(h0.begin(), h0.end(), h1.begin()));
 
-  const bool failed1 = ml_dsa_bit_packing::decode_hint_bits<k, omega>(hint_poly_bytes1, h2);
+  const bool failed1 = ml_dsa_b_bit_packing::decode_hint_bits<k, omega>(hint_poly_bytes1, h2);
   EXPECT_TRUE(failed1);
   EXPECT_FALSE(std::equal(h0.begin(), h0.end(), h2.begin()));
 }
 
-TEST(ML_DSA, HintBitPolynomialEncodingDecodingFor_ML_DSA_44)
+TEST(ML_DSA_B, HintBitPolynomialEncodingDecodingFor_ML_DSA_B_44)
 {
   test_encode_decode_of_hint_polynomial<4, 80>();
 }
 
-TEST(ML_DSA, HintBitPolynomialEncodingDecodingFor_ML_DSA_65)
+TEST(ML_DSA_B, HintBitPolynomialEncodingDecodingFor_ML_DSA_B_65)
 {
   test_encode_decode_of_hint_polynomial<6, 55>();
 }
 
-TEST(ML_DSA, HintBitPolynomialEncodingDecodingFor_ML_DSA_87)
+TEST(ML_DSA_B, HintBitPolynomialEncodingDecodingFor_ML_DSA_B_87)
 {
   test_encode_decode_of_hint_polynomial<8, 75>();
 }

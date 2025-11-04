@@ -1,0 +1,116 @@
+#include "bench_helper.hpp"
+#include "ml_dsa_b/ml_dsa_b_87.hpp"
+#include <benchmark/benchmark.h>
+
+static constexpr size_t BIT_SECURITY_LEVEL = ml_dsa_b_87::lambda;
+static constexpr std::array<uint8_t, BIT_SECURITY_LEVEL / std::numeric_limits<uint8_t>::digits> CSPRNG_SEED{ 0 };
+
+// Benchmark performance of ML-DSA-B-87 key generation algorithm.
+void
+ml_dsa_b_87_keygen(benchmark::State& state)
+{
+  std::array<uint8_t, ml_dsa_b_87::KeygenSeedByteLen> seed{};
+  std::array<uint8_t, ml_dsa_b_87::PubKeyByteLen> pubkey{};
+  std::array<uint8_t, ml_dsa_b_87::SecKeyByteLen> seckey{};
+
+  randomshake::randomshake_t<BIT_SECURITY_LEVEL> csprng;
+  csprng.generate(seed);
+
+  for (auto _ : state) {
+    benchmark::DoNotOptimize(seed);
+    benchmark::DoNotOptimize(pubkey);
+    benchmark::DoNotOptimize(seckey);
+
+    ml_dsa_b_87::keygen(seed, pubkey, seckey);
+
+    benchmark::ClobberMemory();
+  }
+
+  state.SetItemsProcessed(state.iterations());
+}
+
+// Benchmark performance of ML-DSA-B-87 signing algorithm.
+void
+ml_dsa_b_87_sign(benchmark::State& state)
+{
+  const size_t mlen = state.range(0);
+
+  std::vector<uint8_t> msg(mlen, 0);
+  auto msg_span = std::span(msg);
+
+  std::array<uint8_t, ml_dsa_b_87::KeygenSeedByteLen> seed{};
+  std::array<uint8_t, ml_dsa_b_87::PubKeyByteLen> pubkey{};
+  std::array<uint8_t, ml_dsa_b_87::SecKeyByteLen> seckey{};
+  std::array<uint8_t, ml_dsa_b_87::SigningSeedByteLen> rnd{};
+  std::array<uint8_t, ml_dsa_b_87::SigByteLen> sig{};
+
+  randomshake::randomshake_t<BIT_SECURITY_LEVEL> csprng(CSPRNG_SEED);
+  csprng.generate(seed);
+  csprng.generate(rnd);
+  csprng.generate(msg_span);
+
+  ml_dsa_b_87::keygen(seed, pubkey, seckey);
+
+  bool has_signed = true;
+  for (auto _ : state) {
+    benchmark::DoNotOptimize(has_signed);
+    benchmark::DoNotOptimize(rnd);
+    benchmark::DoNotOptimize(seckey);
+    benchmark::DoNotOptimize(msg_span);
+    benchmark::DoNotOptimize(sig);
+
+    has_signed &= ml_dsa_b_87::sign(rnd, seckey, msg_span, {}, sig);
+
+    benchmark::ClobberMemory();
+  }
+
+  assert(has_signed);
+  assert(ml_dsa_b_87::verify(pubkey, msg_span, {}, sig));
+
+  state.SetItemsProcessed(state.iterations());
+}
+
+// Benchmark performance of ML-DSA-B-87 signature verification algorithm.
+void
+ml_dsa_b_87_verify(benchmark::State& state)
+{
+  const size_t mlen = state.range(0);
+
+  std::vector<uint8_t> msg(mlen, 0);
+  auto msg_span = std::span(msg);
+
+  std::array<uint8_t, ml_dsa_b_87::KeygenSeedByteLen> seed{};
+  std::array<uint8_t, ml_dsa_b_87::PubKeyByteLen> pubkey{};
+  std::array<uint8_t, ml_dsa_b_87::SecKeyByteLen> seckey{};
+  std::array<uint8_t, ml_dsa_b_87::SigningSeedByteLen> rnd{};
+  std::array<uint8_t, ml_dsa_b_87::SigByteLen> sig{};
+
+  randomshake::randomshake_t<BIT_SECURITY_LEVEL> csprng;
+  csprng.generate(seed);
+  csprng.generate(rnd);
+  csprng.generate(msg_span);
+
+  ml_dsa_b_87::keygen(seed, pubkey, seckey);
+  const bool has_signed = ml_dsa_b_87::sign(rnd, seckey, msg_span, {}, sig);
+  assert(has_signed);
+
+  bool has_verified = true;
+  for (auto _ : state) {
+    benchmark::DoNotOptimize(has_verified);
+    benchmark::DoNotOptimize(pubkey);
+    benchmark::DoNotOptimize(msg_span);
+    benchmark::DoNotOptimize(sig);
+
+    has_verified &= ml_dsa_b_87::verify(pubkey, msg_span, {}, sig);
+
+    benchmark::ClobberMemory();
+  }
+
+  assert(has_verified);
+
+  state.SetItemsProcessed(state.iterations());
+}
+
+BENCHMARK(ml_dsa_b_87_keygen)->ComputeStatistics("min", compute_min)->ComputeStatistics("max", compute_max);
+BENCHMARK(ml_dsa_b_87_sign)->Arg(32)->ComputeStatistics("min", compute_min)->ComputeStatistics("max", compute_max);
+BENCHMARK(ml_dsa_b_87_verify)->Arg(32)->ComputeStatistics("min", compute_min)->ComputeStatistics("max", compute_max);

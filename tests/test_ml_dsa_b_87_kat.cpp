@@ -1,4 +1,4 @@
-#include "ml_dsa/ml_dsa_87.hpp"
+#include "ml_dsa_b/ml_dsa_b_87.hpp"
 #include "test_helper.hpp"
 #include <array>
 #include <cstdint>
@@ -7,9 +7,9 @@
 #include <iostream>
 
 using namespace std::literals;
-using namespace ml_dsa_87;
+using namespace ml_dsa_b_87;
 
-TEST(ML_DSA, ML_DSA_87_Keygen_ACVP_KnownAnswerTests)
+TEST(ML_DSA_B, ML_DSA_B_87_Keygen_KnownAnswerTests)
 {
   const std::string kat_file = "./kats/ml_dsa_b_87_key-gen.kat";
   std::fstream file(kat_file);
@@ -48,7 +48,7 @@ TEST(ML_DSA, ML_DSA_87_Keygen_ACVP_KnownAnswerTests)
   file.close();
 }
 
-TEST(ML_DSA, ML_DSA_87_Sign_ACVP_KnownAnswerTests)
+TEST(ML_DSA_B, ML_DSA_B_87_Sign_KnownAnswerTests)
 {
   const std::string kat_file = "./kats/ml_dsa_b_87_sig-gen.kat";
   std::fstream file(kat_file);
@@ -90,7 +90,7 @@ TEST(ML_DSA, ML_DSA_87_Sign_ACVP_KnownAnswerTests)
   file.close();
 }
 
-TEST(ML_DSA, ML_DSA_87_Verify_ACVP_KnownAnswerTests)
+TEST(ML_DSA_B, ML_DSA_B_87_Verify_KnownAnswerTests)
 {
   const std::string kat_file = "./kats/ml_dsa_b_87_sig-ver.kat";
   std::fstream file(kat_file);

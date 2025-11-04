@@ -4,7 +4,7 @@
 #include <span>
 #include <string_view>
 
-namespace ml_dsa_hashing {
+namespace ml_dsa_b_hashing {
 
 // BLAKE3 hashing wrapper, behaving like an eXtendable Output Function (XOF).
 //

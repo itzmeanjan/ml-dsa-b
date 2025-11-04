@@ -1,4 +1,4 @@
-#include "ml_dsa/ml_dsa_44.hpp"
+#include "ml_dsa_b/ml_dsa_b_44.hpp"
 #include "randomshake/randomshake.hpp"
 #include <cassert>
 #include <iomanip>
@@ -28,21 +28,21 @@ main()
   constexpr size_t mlen = 32;
   constexpr size_t ctx_len = 8;
 
-  std::vector<uint8_t> seed(ml_dsa_44::KeygenSeedByteLen);
-  std::vector<uint8_t> pubkey(ml_dsa_44::PubKeyByteLen);
-  std::vector<uint8_t> seckey(ml_dsa_44::SecKeyByteLen);
-  std::vector<uint8_t> rnd(ml_dsa_44::SigningSeedByteLen);
+  std::vector<uint8_t> seed(ml_dsa_b_44::KeygenSeedByteLen);
+  std::vector<uint8_t> pubkey(ml_dsa_b_44::PubKeyByteLen);
+  std::vector<uint8_t> seckey(ml_dsa_b_44::SecKeyByteLen);
+  std::vector<uint8_t> rnd(ml_dsa_b_44::SigningSeedByteLen);
   std::vector<uint8_t> msg(mlen);
   std::vector<uint8_t> ctx(ctx_len);
-  std::vector<uint8_t> sig(ml_dsa_44::SigByteLen);
+  std::vector<uint8_t> sig(ml_dsa_b_44::SigByteLen);
 
-  auto seed_span = std::span<uint8_t, ml_dsa_44::KeygenSeedByteLen>(seed);
-  auto rnd_span = std::span<uint8_t, ml_dsa_44::SigningSeedByteLen>(rnd);
+  auto seed_span = std::span<uint8_t, ml_dsa_b_44::KeygenSeedByteLen>(seed);
+  auto rnd_span = std::span<uint8_t, ml_dsa_b_44::SigningSeedByteLen>(rnd);
   auto msg_span = std::span(msg);
   auto ctx_span = std::span(ctx);
-  auto pubkey_span = std::span<uint8_t, ml_dsa_44::PubKeyByteLen>(pubkey);
-  auto seckey_span = std::span<uint8_t, ml_dsa_44::SecKeyByteLen>(seckey);
-  auto sig_span = std::span<uint8_t, ml_dsa_44::SigByteLen>(sig);
+  auto pubkey_span = std::span<uint8_t, ml_dsa_b_44::PubKeyByteLen>(pubkey);
+  auto seckey_span = std::span<uint8_t, ml_dsa_b_44::SecKeyByteLen>(seckey);
+  auto sig_span = std::span<uint8_t, ml_dsa_b_44::SigByteLen>(sig);
 
   randomshake::randomshake_t<128> csprng;
 
@@ -54,8 +54,8 @@ main()
   // While filling it with 0, invokes "deterministic" signing mode.
   csprng.generate(rnd_span);
 
-  ml_dsa_44::keygen(seed_span, pubkey_span, seckey_span);
-  const bool has_signed = ml_dsa_44::sign(rnd_span, seckey_span, msg_span, ctx_span, sig_span);
+  ml_dsa_b_44::keygen(seed_span, pubkey_span, seckey_span);
+  const bool has_signed = ml_dsa_b_44::sign(rnd_span, seckey_span, msg_span, ctx_span, sig_span);
 
   // ML-DSA exposes an internal signing API, where one can pass an externally computed `mu` of 64 -bytes i.e. the message representative
   // to be signed, instead of passing message and optional context string. How is `mu` computed ?
@@ -74,11 +74,11 @@ main()
   //
   // hasher.squeeze(mu_span);
   // ```
-  // const bool has_signed = ml_dsa_44::sign_internal(rnd_span, seckey_span, mu_span, sig_span);
+  // const bool has_signed = ml_dsa_b_44::sign_internal(rnd_span, seckey_span, mu_span, sig_span);
 
-  const bool is_valid = ml_dsa_44::verify(pubkey_span, msg_span, ctx_span, sig_span);
+  const bool is_valid = ml_dsa_b_44::verify(pubkey_span, msg_span, ctx_span, sig_span);
 
-  std::cout << "ML-DSA-44 @ NIST security level 2\n";
+  std::cout << "ML-DSA-B-44 @ NIST security level 2\n";
   std::cout << "Seed      : " << to_hex(seed_span) << "\n";
   std::cout << "Pubkey    : " << to_hex(pubkey_span) << "\n";
   std::cout << "Seckey    : " << to_hex(seckey_span) << "\n";
