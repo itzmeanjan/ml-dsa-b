@@ -35,7 +35,6 @@ expand_a(std::span<const uint8_t, 32> rho, std::span<ml_dsa_field::zq_t, k * l *
       msg[32] = static_cast<uint8_t>(j);
       msg[33] = static_cast<uint8_t>(i);
 
-      //ml_dsa_hashing::blake3_hasher_t hasher;
       auto hasher = ml_dsa_hashing::ml_dsa_domains::G();
       hasher.absorb(msg_span);
       hasher.finalize();
@@ -90,7 +89,6 @@ expand_s(std::span<const uint8_t, 64> rho_prime, std::span<ml_dsa_field::zq_t, k
     msg[64] = static_cast<uint8_t>(new_nonce >> 0);
     msg[65] = static_cast<uint8_t>(new_nonce >> 8);
 
-    //ml_dsa_hashing::blake3_hasher_t hasher;
     auto hasher = ml_dsa_hashing::ml_dsa_domains::H();
     hasher.absorb(msg_span);
     hasher.finalize();
@@ -163,7 +161,6 @@ expand_mask(std::span<const uint8_t, 64> seed, const uint16_t nonce, std::span<m
     msg[64] = static_cast<uint8_t>(new_nonce >> 0);
     msg[65] = static_cast<uint8_t>(new_nonce >> 8);
 
-    //ml_dsa_hashing::blake3_hasher_t hasher;
     auto hasher = ml_dsa_hashing::ml_dsa_domains::H();
     hasher.absorb(msg_span);
     hasher.finalize();
@@ -189,7 +186,6 @@ sample_in_ball(std::span<const uint8_t, (2 * lambda) / std::numeric_limits<uint8
   auto tau_bits_span = std::span(tau_bits);
   auto buf_span = std::span(buf);
 
-  //ml_dsa_hashing::blake3_hasher_t hasher;
   auto hasher = ml_dsa_hashing::ml_dsa_domains::H();
   hasher.absorb(seed);
   hasher.finalize();

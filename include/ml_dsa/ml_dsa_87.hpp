@@ -27,9 +27,6 @@ static constexpr size_t SecKeyByteLen = ml_dsa_utils::sec_key_len(k, l, eta, d);
 // Byte length ( = 32 ) of ML-DSA-87 signing seed.
 static constexpr size_t SigningSeedByteLen = ml_dsa::RND_BYTE_LEN;
 
-// Byte length ( = 64 ) of ML-DSA-87 message representative.
-static constexpr size_t MessageRepresentativeByteLen = ml_dsa::MU_BYTE_LEN;
-
 // Byte length ( = 4627 ) of ML-DSA-87 signature.
 static constexpr size_t SigByteLen = ml_dsa_utils::sig_len(k, l, gamma1, omega, lambda);
 
@@ -64,7 +61,7 @@ sign(std::span<const uint8_t, SigningSeedByteLen> rnd,
 static inline bool
 sign_internal(std::span<const uint8_t, SigningSeedByteLen> rnd,
               std::span<const uint8_t, SecKeyByteLen> seckey,
-              std::span<const uint8_t/*, MessageRepresentativeByteLen*/> mu,
+              std::span<const uint8_t> mu,
               std::span<uint8_t, SigByteLen> sig)
 {
   return ml_dsa::sign_internal<k, l, d, eta, gamma1, gamma2, tau, beta, omega, lambda>(rnd, seckey, mu, sig);
@@ -83,7 +80,7 @@ verify(std::span<const uint8_t, PubKeyByteLen> pubkey, std::span<const uint8_t> 
 // this routine can be used for verifying if the signature is valid for the provided message or not, returning truth
 // value only in case of successful signature verification, otherwise false is returned.
 static inline bool
-verify_internal(std::span<const uint8_t, PubKeyByteLen> pubkey, std::span<const uint8_t/*, MessageRepresentativeByteLen*/> mu, std::span<const uint8_t, SigByteLen> sig)
+verify_internal(std::span<const uint8_t, PubKeyByteLen> pubkey, std::span<const uint8_t> mu, std::span<const uint8_t, SigByteLen> sig)
 {
   return ml_dsa::verify_internal<k, l, d, gamma1, gamma2, tau, beta, omega, lambda>(pubkey, mu, sig);
 }

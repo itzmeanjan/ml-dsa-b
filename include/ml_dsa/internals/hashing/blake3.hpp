@@ -25,7 +25,9 @@ public:
     this->squeeze_from = 0;
   };
 
-  explicit blake3_hasher_t(const std::string_view separator) {
+  // Initialize BLAKE3 hasher context with a domain separation string.
+  explicit blake3_hasher_t(const std::string_view separator)
+  {
     blake3_hasher_init_derive_key(&this->internal_hasher, separator.data());
     this->finalized = false;
     this->squeeze_from = 0;
@@ -69,15 +71,18 @@ public:
 
 namespace ml_dsa_domains {
 
-    inline blake3_hasher_t G() {
-        return blake3_hasher_t("ML-DSA-B-G");
-    }
-    
-    inline blake3_hasher_t H() {
-        return blake3_hasher_t("ML-DSA-B-H");
-    }
+inline blake3_hasher_t
+G()
+{
+  return blake3_hasher_t("ML-DSA-B-G");
+}
 
+inline blake3_hasher_t
+H()
+{
+  return blake3_hasher_t("ML-DSA-B-H");
 }
 
 }
 
+}
